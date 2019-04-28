@@ -1,10 +1,10 @@
 from typing import Dict
 
-from pandas import DataFrame
+from pandas import Series
 
-from src.bias.BiasStrategy import BiasStrategy
+from src.bias.AnalyzeBiasStrategy import AnalyzeBiasStrategy
 
 
-class PopularityBias(BiasStrategy):
-    def execute(self, input_data_frame: DataFrame) -> Dict:
-        return input_data_frame['movie'].value_counts().to_dict()
+class PopularityBias(AnalyzeBiasStrategy):
+    def analyze(self, input_data: Series) -> Dict:
+        return input_data.value_counts().to_dict()
