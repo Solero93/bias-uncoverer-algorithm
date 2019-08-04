@@ -7,5 +7,5 @@ from src.domain.value_objects.Graph import Graph
 
 class AnalyzeDataBiasRepository(ABC):
     @abstractmethod
-    def analyze(self, data_set_path: DataSetSource, bias_code: BiasCode) -> Graph:
+    def analyze(self, data_set_source: DataSetSource, bias_code: BiasCode) -> Graph:
         pass

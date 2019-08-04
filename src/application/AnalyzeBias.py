@@ -18,18 +18,19 @@ class AnalyzeBias:
     # TODO Dependency injection
     def __init__(self, analyze_algorithm_bias_repository: AnalyzeAlgorithmBiasRepository = AnalyzeAlgorithmBias(
         DataFrameReaderStrategyFactory(), AlgorithmBiasStrategyFactory(), RecommenderAlgorithmStrategyFactory()),
-                 analyze_data_bias_repository: AnalyzeDataBiasRepository = AnalyzeDataBias(DataBiasStrategyFactory())):
+                 analyze_data_bias_repository: AnalyzeDataBiasRepository = AnalyzeDataBias(
+                     DataFrameReaderStrategyFactory(), DataBiasStrategyFactory())):
         self.analyze_algorithm_bias_repository = analyze_algorithm_bias_repository
         self.analyze_data_bias_repository = analyze_data_bias_repository
 
     def invoke(self, data_set_source: DataSetSource, bias_code: BiasCode, algorithm_code: AlgorithmCode):
         data_bias_graph: Graph = self.analyze_data_bias_repository.analyze(
-            data_set_path=data_set_source,
+            data_set_source=data_set_source,
             bias_code=bias_code
         )
 
         algorithm_bias_graph: Graph = self.analyze_algorithm_bias_repository.analyze(
-            data_set_path=data_set_source,
+            data_set_source=data_set_source,
             bias_code=bias_code,
             algorithm_code=algorithm_code
         )
