@@ -8,4 +8,5 @@ class RecommenderAlgorithmStrategyFactory:
         if algorithm_code == AlgorithmCode('random'):
             return RandomRecommender()
 
-        return None  # TODO See what to do here
+        # TODO Raise exception or default strategy?
+        return None

@@ -7,6 +7,7 @@ from src.domain.value_objects.DataSetSource import DataSetSource
 from src.domain.value_objects.Graph import Graph
 from src.infrastructure.algorithm_bias.AlgorithmBiasStrategyFactory import AlgorithmBiasStrategyFactory
 from src.infrastructure.data_bias.DataBiasStrategyFactory import DataBiasStrategyFactory
+from src.infrastructure.parse.DataFrameReaderStrategyFactory import DataFrameReaderStrategyFactory
 from src.infrastructure.recommender_algorithms.RecommenderAlgorithmStrategyFactory import \
     RecommenderAlgorithmStrategyFactory
 from src.infrastructure.repositories.AnalyzeAlgorithmBias import AnalyzeAlgorithmBias
@@ -16,7 +17,7 @@ from src.infrastructure.repositories.AnalyzeDataBias import AnalyzeDataBias
 class AnalyzeBias:
     # TODO Dependency injection
     def __init__(self, analyze_algorithm_bias_repository: AnalyzeAlgorithmBiasRepository = AnalyzeAlgorithmBias(
-        AlgorithmBiasStrategyFactory(), RecommenderAlgorithmStrategyFactory()),
+        DataFrameReaderStrategyFactory(), AlgorithmBiasStrategyFactory(), RecommenderAlgorithmStrategyFactory()),
                  analyze_data_bias_repository: AnalyzeDataBiasRepository = AnalyzeDataBias(DataBiasStrategyFactory())):
         self.analyze_algorithm_bias_repository = analyze_algorithm_bias_repository
         self.analyze_data_bias_repository = analyze_data_bias_repository

@@ -4,5 +4,5 @@ from src.domain.value_objects.DataSetSource import DataSetSource
 
 
 @dataclass
-class ReadDataFrameFromDataSetStrategyContext:
+class DataFrameReaderStrategyContext:
     data_set_path: DataSetSource
