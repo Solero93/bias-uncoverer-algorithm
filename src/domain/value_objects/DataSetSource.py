@@ -5,5 +5,5 @@ from dataclasses import dataclass
 class DataSetSource:
     path: str
 
-    def isCSV(self):
+    def isCSV(self) -> bool:
         return self.path.lower().endswith('.csv')
