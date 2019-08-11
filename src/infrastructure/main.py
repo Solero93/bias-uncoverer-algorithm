@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from infrastructure import StoreResult
 from src.application.AnalyzeAlgorithmBias import AnalyzeAlgorithmBias
 from src.application.AnalyzeDataBias import AnalyzeDataBias

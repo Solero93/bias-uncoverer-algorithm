@@ -24,7 +24,7 @@ class PopularityAlgorithmBias(AlgorithmBiasStrategy):
         series_with_zero_frequencies_for_all_movies: pandas.Series = pandas.Series(
             data=np.zeros(shape=(all_movies.size,)), index=all_movies, dtype=np.int
         )
-        frequencies_of_all_items: pandas.Series = recommendation_frequencies\
+        frequencies_of_all_items: pandas.Series = recommendation_frequencies \
             .combine_first(series_with_zero_frequencies_for_all_movies)
 
         frequencies_of_frequencies_of_all_items = frequencies_of_all_items.value_counts()
