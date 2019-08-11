@@ -1,5 +1,6 @@
 from pprint import pprint
 
+from infrastructure import StoreResult
 from src.application.AnalyzeAlgorithmBias import AnalyzeAlgorithmBias
 from src.application.AnalyzeDataBias import AnalyzeDataBias
 from src.domain.AnalysisResult import AnalysisResult
@@ -24,7 +25,7 @@ def main():
             algorithm_bias_graph=algorithm_bias_graph
         )
 
-        pprint(result.to_dict())  # TODO Store results somewhere
+        StoreResult.store(result)
 
 
 if __name__ == '__main__':

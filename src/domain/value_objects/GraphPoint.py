@@ -7,7 +7,7 @@ class GraphPoint:
     x: int
     y: int
 
-    def to_dict(self) -> Dict[str, int]:
+    def serialize(self) -> Dict[str, int]:
         return {
             'x': self.x,
             'y': self.y

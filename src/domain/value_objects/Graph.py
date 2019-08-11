@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Dict
 
 from src.domain.value_objects.GraphPoint import GraphPoint
 
@@ -10,5 +10,5 @@ from src.domain.value_objects.GraphPoint import GraphPoint
 class Graph:
     points: List[GraphPoint]
 
-    def to_dict(self):
-        return [g.to_dict() for g in self.points]
+    def serialize(self) -> List[Dict]:
+        return [g.serialize() for g in self.points]
