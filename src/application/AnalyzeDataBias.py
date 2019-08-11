@@ -4,7 +4,7 @@ from src.domain.value_objects.DataSetSource import DataSetSource
 from src.domain.value_objects.Graph import Graph
 from src.infrastructure.data_bias.DataBiasStrategyFactory import DataBiasStrategyFactory
 from src.infrastructure.parse.DataFrameReaderStrategyFactory import DataFrameReaderStrategyFactory
-from src.infrastructure.repositories.DataBias import DataBias
+from src.infrastructure.repositories.data_bias.DataBias import DataBias
 
 
 class AnalyzeDataBias:

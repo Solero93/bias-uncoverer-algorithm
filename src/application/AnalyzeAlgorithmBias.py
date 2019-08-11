@@ -7,7 +7,7 @@ from src.infrastructure.algorithm_bias.AlgorithmBiasStrategyFactory import Algor
 from src.infrastructure.parse.DataFrameReaderStrategyFactory import DataFrameReaderStrategyFactory
 from src.infrastructure.recommender_algorithms.RecommenderAlgorithmStrategyFactory import \
     RecommenderAlgorithmStrategyFactory
-from src.infrastructure.repositories.AlgorithmBias import AlgorithmBias
+from src.infrastructure.repositories.algorithm_bias.AlgorithmBias import AlgorithmBias
 
 
 class AnalyzeAlgorithmBias:
