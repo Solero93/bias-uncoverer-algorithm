@@ -1,6 +1,6 @@
 from pandas import DataFrame
 
-from src.domain.repositories.AnalyzeAlgorithmBiasRepository import AnalyzeAlgorithmBiasRepository
+from src.domain.repositories.AlgorithmBiasRepository import AlgorithmBiasRepository
 from src.domain.value_objects.AlgorithmCode import AlgorithmCode
 from src.domain.value_objects.BiasCode import BiasCode
 from src.domain.value_objects.DataSetSource import DataSetSource
@@ -16,7 +16,7 @@ from src.infrastructure.recommender_algorithms.RecommenderAlgorithmStrategyFacto
     RecommenderAlgorithmStrategyFactory
 
 
-class AnalyzeAlgorithmBias(AnalyzeAlgorithmBiasRepository):
+class AlgorithmBias(AlgorithmBiasRepository):
     def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory,
                  algorithm_bias_factory: AlgorithmBiasStrategyFactory,
                  recommender_algorithm_factory: RecommenderAlgorithmStrategyFactory):

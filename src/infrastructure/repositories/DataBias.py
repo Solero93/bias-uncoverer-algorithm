@@ -1,6 +1,6 @@
 from pandas import DataFrame
 
-from src.domain.repositories.AnalyzeDataBiasRepository import AnalyzeDataBiasRepository
+from src.domain.repositories.DataBiasRepository import DataBiasRepository
 from src.domain.value_objects.BiasCode import BiasCode
 from src.domain.value_objects.DataSetSource import DataSetSource
 from src.domain.value_objects.Graph import Graph
@@ -12,7 +12,7 @@ from src.infrastructure.parse.DataFrameReaderStrategyContext import DataFrameRea
 from src.infrastructure.parse.DataFrameReaderStrategyFactory import DataFrameReaderStrategyFactory
 
 
-class AnalyzeDataBias(AnalyzeDataBiasRepository):
+class DataBias(DataBiasRepository):
     def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory,
                  data_bias_factory: DataBiasStrategyFactory):
         self.data_frame_reader_factory = data_frame_reader_factory
