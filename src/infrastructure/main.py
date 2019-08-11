@@ -2,32 +2,30 @@ from pprint import pprint
 
 from src.application.AnalyzeAlgorithmBias import AnalyzeAlgorithmBias
 from src.application.AnalyzeDataBias import AnalyzeDataBias
-from src.domain.value_objects.AlgorithmCode import AlgorithmCode
-from src.domain.value_objects.BiasCode import BiasCode
-from src.domain.value_objects.DataSetSource import DataSetSource
+from src.domain.AnalysisResult import AnalysisResult
+from src.domain.value_objects.Graph import Graph
+from src.infrastructure import GetInput
 
 
-def read_from_queue():
-    algorithm_code: AlgorithmCode = AlgorithmCode('random')
-    bias_code: BiasCode = BiasCode('popularity')
-    data_set_source: DataSetSource = DataSetSource('random_path_to_file')
+def main():
+    for message in GetInput.get_message():
+        data_bias_graph: Graph = AnalyzeDataBias().invoke(
+            data_set_source=message.data_set_source,
+            bias_code=message.bias_code
+        )
+        algorithm_bias_graph: Graph = AnalyzeAlgorithmBias().invoke(
+            data_set_source=message.data_set_source,
+            bias_code=message.bias_code,
+            algorithm_code=message.algorithm_code
+        )
 
-    data_bias_graph: Graph = AnalyzeDataBias().invoke(data_set_source=data_set_source, bias_code=bias_code)
-    algorithm_bias_graph: Graph = AnalyzeAlgorithmBias().invoke(data_set_source=data_set_source, bias_code=bias_code,
-                                                                algorithm_code=algorithm_code)
+        result = AnalysisResult(
+            data_bias_graph=data_bias_graph,
+            algorithm_bias_graph=algorithm_bias_graph
+        )
 
-    result = {
-        'data_bias': data_bias_graph.to_dict(),
-        'algorithm_bias': algorithm_bias_graph.to_dict()
-    }
-
-    pprint(result)
-
-    # TODO
-    # Wait for something in queue
-    # Process stuff
-    # Send results to queue back again
+        pprint(result.to_dict())  # TODO Store results somewhere
 
 
 if __name__ == '__main__':
-    read_from_queue()
+    main()
