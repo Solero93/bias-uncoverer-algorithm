@@ -12,6 +12,7 @@ def main():
             data_set_source=message.data_set_source,
             bias_code=message.bias_code
         )
+
         algorithm_bias_graph: Graph = AnalyzeAlgorithmBias().invoke(
             data_set_source=message.data_set_source,
             bias_code=message.bias_code,
@@ -19,6 +20,7 @@ def main():
         )
 
         result = AnalysisResult(
+            analysis_id=message.analysis_id,
             data_bias_graph=data_bias_graph,
             algorithm_bias_graph=algorithm_bias_graph
         )

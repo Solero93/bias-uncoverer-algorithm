@@ -3,6 +3,7 @@ from typing import Generator
 
 import pika
 
+from domain.value_objects.AnalysisID import AnalysisID
 from src.domain.AnalysisQuery import AnalysisQuery
 from src.domain.value_objects.AlgorithmCode import AlgorithmCode
 from src.domain.value_objects.BiasCode import BiasCode
@@ -18,6 +19,7 @@ def get_message() -> Generator[AnalysisQuery, None, None]:
     for method_frame, properties, body in channel.consume('test', auto_ack=True):
         analysis_query_dict: dict = json.loads(body)
         yield AnalysisQuery(
+            analysis_id=AnalysisID(analysis_query_dict['analysis_id']),
             data_set_source=DataSetSource(analysis_query_dict['data_set_source']),
             bias_code=BiasCode(analysis_query_dict['bias_code']),
             algorithm_code=AlgorithmCode(analysis_query_dict['algorithm_code'])
