@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List
 
-from domain.value_objects.AnalysisID import AnalysisID
+from src.domain.value_objects.AnalysisID import AnalysisID
 from src.domain.value_objects.Graph import Graph
 
 

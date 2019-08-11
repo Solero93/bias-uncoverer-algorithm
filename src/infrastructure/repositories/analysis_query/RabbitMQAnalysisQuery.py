@@ -3,6 +3,7 @@ from typing import Generator
 
 import pika
 
+from src.infrastructure.rabbitmq.connection import get_connection
 from src.domain.AnalysisQuery import AnalysisQuery
 from src.domain.repositories.AnalysisQueryRepository import AnalysisQueryRepository
 from src.domain.value_objects.AlgorithmCode import AlgorithmCode
@@ -13,9 +14,7 @@ from src.domain.value_objects.DataSetSource import DataSetSource
 
 class RabbitMQAnalysisQuery(AnalysisQueryRepository):
     def wait_and_get(self) -> Generator[AnalysisQuery, None, None]:
-        credentials = pika.PlainCredentials('rabbitmq', 'rabbitmq')
-        parameters = pika.ConnectionParameters(credentials=credentials)
-        connection = pika.BlockingConnection(parameters=parameters)  # TODO Change to poll every so many seconds
+        connection: pika.BlockingConnection = get_connection()
         channel: pika.adapters.blocking_connection.BlockingChannel = connection.channel()
 
         for method_frame, properties, body in channel.consume('test', auto_ack=True):
