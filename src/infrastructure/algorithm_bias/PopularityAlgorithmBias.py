@@ -27,7 +27,7 @@ class PopularityAlgorithmBias(AlgorithmBiasStrategy):
         frequencies_of_all_items: pandas.Series = recommendation_frequencies \
             .combine_first(series_with_zero_frequencies_for_all_movies)
 
-        frequencies_of_frequencies_of_all_items = frequencies_of_all_items.value_counts()
+        frequencies_of_frequencies_of_all_items = frequencies_of_all_items.value_counts().sort_index()
 
         graph_points: List[GraphPoint] = [
             GraphPoint(x=k, y=v) for k, v in frequencies_of_frequencies_of_all_items.to_dict().items()
