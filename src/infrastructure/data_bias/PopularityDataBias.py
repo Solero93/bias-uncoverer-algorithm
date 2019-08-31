@@ -11,7 +11,7 @@ from src.infrastructure.data_bias.DataBiasStrategyContext import DataBiasStrateg
 class PopularityDataBias(DataBiasStrategy):
     def run(self, strategy_context: DataBiasStrategyContext) -> Graph:
         # TODO See how to obtain this programatically, without hardcoding column
-        items: pandas.Series = strategy_context.data_set['movie_id']
+        items: pandas.Series = strategy_context.data_set['item_id']
         number_of_ratings_per_item: pandas.Series = items.value_counts(sort=False)
         number_of_ratings_per_rating: pandas.Series = number_of_ratings_per_item.value_counts(sort=False).sort_index()
         graph_points: List[GraphPoint] = [

@@ -18,7 +18,7 @@ class PopularityAlgorithmBias(AlgorithmBiasStrategy):
             number_of_recommendations=10
         ))
 
-        all_items: np.ndarray = strategy_context.data_set['movie_id'].unique()
+        all_items: np.ndarray = strategy_context.data_set['item_id'].unique()
 
         recommendation_frequencies: pandas.Series = pandas.Series(data=recommendations.flatten()).value_counts()
         series_with_zero_frequencies_for_all_items: pandas.Series = pandas.Series(
