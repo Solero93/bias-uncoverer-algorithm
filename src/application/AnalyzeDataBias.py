@@ -6,7 +6,7 @@ from src.infrastructure.repositories.data_bias.DataBias import DataBias
 
 
 class AnalyzeDataBias:
-    # TODO Dependency injection
+    # TODO Use a Dependency injection container
     def __init__(self, analyze_data_bias_repository: DataBiasRepository = DataBias()):
         self.analyze_data_bias_repository = analyze_data_bias_repository
 

@@ -7,7 +7,7 @@ from src.infrastructure.repositories.algorithm_bias.AlgorithmBias import Algorit
 
 
 class AnalyzeAlgorithmBias:
-    # TODO Dependency injection
+    # TODO Use a Dependency injection container
     def __init__(self, analyze_algorithm_bias_repository: AlgorithmBiasRepository = AlgorithmBias()):
         self.analyze_algorithm_bias_repository = analyze_algorithm_bias_repository
 
