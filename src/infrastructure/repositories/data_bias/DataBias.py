@@ -13,8 +13,9 @@ from src.infrastructure.parse.DataFrameReaderStrategyFactory import DataFrameRea
 
 
 class DataBias(DataBiasRepository):
-    def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory,
-                 data_bias_factory: DataBiasStrategyFactory):
+    # TODO Dependency injection
+    def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory = DataFrameReaderStrategyFactory(),
+                 data_bias_factory: DataBiasStrategyFactory = DataBiasStrategyFactory()):
         self.data_frame_reader_factory = data_frame_reader_factory
         self.data_bias_factory = data_bias_factory
 

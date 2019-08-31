@@ -17,9 +17,10 @@ from src.infrastructure.recommender_algorithms.RecommenderAlgorithmStrategyFacto
 
 
 class AlgorithmBias(AlgorithmBiasRepository):
-    def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory,
-                 algorithm_bias_factory: AlgorithmBiasStrategyFactory,
-                 recommender_algorithm_factory: RecommenderAlgorithmStrategyFactory):
+    # TODO Dependency injection
+    def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory = DataFrameReaderStrategyFactory(),
+                 algorithm_bias_factory: AlgorithmBiasStrategyFactory = AlgorithmBiasStrategyFactory(),
+                 recommender_algorithm_factory: RecommenderAlgorithmStrategyFactory = RecommenderAlgorithmStrategyFactory()):
         self.data_frame_reader_factory = data_frame_reader_factory
         self.algorithm_bias_factory = algorithm_bias_factory
         self.recommender_algorithm_factory = recommender_algorithm_factory

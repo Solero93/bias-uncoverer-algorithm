@@ -3,17 +3,12 @@ from src.domain.value_objects.AlgorithmCode import AlgorithmCode
 from src.domain.value_objects.BiasCode import BiasCode
 from src.domain.value_objects.DataSetSource import DataSetSource
 from src.domain.value_objects.Graph import Graph
-from src.infrastructure.algorithm_bias.AlgorithmBiasStrategyFactory import AlgorithmBiasStrategyFactory
-from src.infrastructure.parse.DataFrameReaderStrategyFactory import DataFrameReaderStrategyFactory
-from src.infrastructure.recommender_algorithms.RecommenderAlgorithmStrategyFactory import \
-    RecommenderAlgorithmStrategyFactory
 from src.infrastructure.repositories.algorithm_bias.AlgorithmBias import AlgorithmBias
 
 
 class AnalyzeAlgorithmBias:
     # TODO Dependency injection
-    def __init__(self, analyze_algorithm_bias_repository: AlgorithmBiasRepository = AlgorithmBias(
-        DataFrameReaderStrategyFactory(), AlgorithmBiasStrategyFactory(), RecommenderAlgorithmStrategyFactory())):
+    def __init__(self, analyze_algorithm_bias_repository: AlgorithmBiasRepository = AlgorithmBias()):
         self.analyze_algorithm_bias_repository = analyze_algorithm_bias_repository
 
     def invoke(self, data_set_source: DataSetSource, bias_code: BiasCode, algorithm_code: AlgorithmCode) -> Graph:
