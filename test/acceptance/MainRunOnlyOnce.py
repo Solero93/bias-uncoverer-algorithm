@@ -1,4 +1,4 @@
-from src.infrastructure.main import Main
+from src.main import Main
 
 
 class MainRunOnlyOnce(Main):
