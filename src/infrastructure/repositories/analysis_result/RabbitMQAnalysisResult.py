@@ -16,7 +16,11 @@ class RabbitMQAnalysisResult(AnalysisResultRepository):
         channel.basic_publish(
             exchange='test2',
             routing_key='test2',
-            body=json.dumps(analysis_result.serialize()),
+            body=json.dumps({
+                'analysis_id': analysis_result.analysis_id.content,
+                'data_bias': analysis_result.data_bias_graph.serialize(),
+                'algorithm_bias': analysis_result.algorithm_bias_graph.serialize()
+            }),
             properties=pika.BasicProperties(
                 content_type='application/json',
                 delivery_mode=1

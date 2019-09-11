@@ -16,7 +16,7 @@ class RabbitMQAnalysisQuery(AnalysisQueryRepository):
         connection: pika.BlockingConnection = get_connection()
         channel: pika.adapters.blocking_connection.BlockingChannel = connection.channel()
 
-        method_frame, properties, body = channel.basic_get('test', auto_ack=True)
+        method_frame, properties, body = channel.consume(queue='test', auto_ack=True).__next__()
         analysis_query_dict: dict = json.loads(body)
 
         channel.close()

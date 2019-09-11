@@ -1,3 +1,5 @@
+import time
+
 from src.application.AnalyzeAlgorithmBias import AnalyzeAlgorithmBias
 from src.application.AnalyzeDataBias import AnalyzeDataBias
 from src.domain.AnalysisQuery import AnalysisQuery
@@ -16,7 +18,12 @@ class AnalysisQueryProcessor:
         self.analysis_result_repository = analysis_result_repository
 
     def run(self):
+        print("Waiting for query...")
         analysis_query: AnalysisQuery = self.analysis_query_repository.get_query()
+        print("Query obtained!", analysis_query)
+
+        time.sleep(5)
+
         data_bias_graph: Graph = AnalyzeDataBias().invoke(
             data_set_source=analysis_query.data_set_source,
             bias_code=analysis_query.bias_code
@@ -33,5 +40,7 @@ class AnalysisQueryProcessor:
             data_bias_graph=data_bias_graph,
             algorithm_bias_graph=algorithm_bias_graph
         )
+
+        print("Analysis done!", result)
 
         self.analysis_result_repository.store(result)
