@@ -22,8 +22,6 @@ class AnalysisQueryProcessor:
         analysis_query: AnalysisQuery = self.analysis_query_repository.get_query()
         print("Query obtained!", analysis_query)
 
-        time.sleep(5)
-
         data_bias_graph: Graph = AnalyzeDataBias().invoke(
             data_set_source=analysis_query.data_set_source,
             bias_code=analysis_query.bias_code
