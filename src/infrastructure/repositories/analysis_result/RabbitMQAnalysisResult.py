@@ -1,4 +1,5 @@
 import json
+import time
 
 import pika
 
@@ -11,8 +12,8 @@ class RabbitMQAnalysisResult(AnalysisResultRepository):
     def store(self, analysis_result: AnalysisResult) -> None:
         connection: pika.BlockingConnection = get_connection()
         channel: pika.adapters.blocking_connection.BlockingChannel = connection.channel()
-
-        channel.confirm_delivery()
+        # FIXME If analysis is too short, for some reason this message doesn't arrive to the queue
+        time.sleep(5)
         channel.basic_publish(
             exchange='test2',
             routing_key='test2',
@@ -23,10 +24,9 @@ class RabbitMQAnalysisResult(AnalysisResultRepository):
             }),
             properties=pika.BasicProperties(
                 content_type='application/json',
-                delivery_mode=1
+                delivery_mode=2
             ),
             mandatory=True
         )
 
-        channel.close()
         connection.close()
