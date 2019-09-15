@@ -1,6 +1,7 @@
-rabbit1:
+# For testing purposes
+rabbit:
   image: "rabbitmq:3.7-management"
-  hostname: "rabbit1"
+  hostname: "rabbit"
   environment:
     RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
     RABBITMQ_DEFAULT_USER: "rabbitmq"
@@ -10,6 +11,6 @@ rabbit1:
     - "15672:15672"
     - "5672:5672"
   labels:
-    NAME: "rabbitmq1"
+    NAME: "rabbitmq"
   volumes:
     - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
