@@ -19,6 +19,7 @@ class RabbitMQAnalysisQuery(AnalysisQueryRepository):
         method_frame, properties, body = channel.consume(queue='test', auto_ack=True).__next__()
         analysis_query_dict: dict = json.loads(body)
 
+        channel.close()
         connection.close()
 
         return AnalysisQuery(
