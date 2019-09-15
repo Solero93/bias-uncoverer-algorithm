@@ -1,5 +1,3 @@
-import time
-
 from src.application.AnalyzeAlgorithmBias import AnalyzeAlgorithmBias
 from src.application.AnalyzeDataBias import AnalyzeDataBias
 from src.domain.AnalysisQuery import AnalysisQuery

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from src.domain.value_objects.AnalysisID import AnalysisID
 from src.domain.value_objects.AlgorithmCode import AlgorithmCode
+from src.domain.value_objects.AnalysisID import AnalysisID
 from src.domain.value_objects.BiasCode import BiasCode
 from src.domain.value_objects.DataSetSource import DataSetSource
 
