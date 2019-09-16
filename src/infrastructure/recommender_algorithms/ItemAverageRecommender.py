@@ -19,5 +19,8 @@ class ItemAverageRecommender(RecommenderAlgorithmStrategy):
         data_frame_reader: DataFrameReaderStrategy = self.data_frame_reader_factory.create(data_set_source)
         data_set: DataFrame = data_frame_reader.parse(DataFrameReaderStrategyContext(data_set_source))
 
-        return data_set.pivot_table(index='item_id', values='rating', fill_value=float('-inf'))\
-            .sort_values(by='rating', ascending=False)[:strategy_context.number_of_recommendations].index.values
+        all_users: np.ndarray = data_set['user'].unique()
+
+        return np.repeat(data_set.pivot_table(index='item', values='rating', fill_value=float('-inf'))
+                         .sort_values(by='rating', ascending=False)[
+                         :strategy_context.number_of_recommendations].index.values, repeats=all_users.size)

@@ -20,9 +20,9 @@ class RandomRecommender(RecommenderAlgorithmStrategy):
         data_set: DataFrame = data_frame_reader.parse(DataFrameReaderStrategyContext(data_set_source))
 
         # TODO See how to obtain this programatically, without hardcoding column
-        all_items: np.ndarray = data_set['item_id']
-        all_users: np.ndarray = data_set['user_id']
+        all_items_with_repetitions: np.ndarray = data_set['item'].values
+        all_users: np.ndarray = data_set['user'].unique()
         all_recommendations: np.ndarray = np.random.choice(
-            all_items, size=(all_users.size, strategy_context.number_of_recommendations)
+            all_items_with_repetitions, size=(all_users.size, strategy_context.number_of_recommendations)
         )
         return all_recommendations

@@ -25,7 +25,7 @@ class PopularityDataBias(DataBiasStrategy):
         data_set: DataFrame = data_frame_reader.parse(DataFrameReaderStrategyContext(data_set_source))
 
         # TODO See how to obtain this programatically, without hardcoding column
-        items: pandas.Series = data_set['item_id']
+        items: pandas.Series = data_set['item']
         number_of_ratings_per_item: pandas.Series = items.value_counts(sort=False)
         number_of_ratings_per_rating: pandas.Series = number_of_ratings_per_item.value_counts(sort=False).sort_index()
         graph_points: List[GraphPoint] = [
@@ -33,6 +33,6 @@ class PopularityDataBias(DataBiasStrategy):
         ]  # TODO optimize if necessary
 
         graph: Graph = Graph(points=graph_points)
-        logarithmic_graph: Graph = LogarithmicGraph().process_graph(graph)
-        graph_limited_to_1000: Graph = LimitToN(n=1000).process_graph(logarithmic_graph)
-        return graph_limited_to_1000
+        graph: Graph = LogarithmicGraph().process_graph(graph)
+        graph: Graph = LimitToN(n=10000).process_graph(graph)
+        return graph

@@ -28,6 +28,7 @@ class PopularityAlgorithmBias(AlgorithmBiasStrategy):
         data_set_source = strategy_context.data_set_source
         recommendations: np.ndarray = strategy_context.recommender_strategy.run(RecommenderAlgorithmStrategyContext(
             data_set_source=data_set_source,
+            # TODO Have it as parameter
             number_of_recommendations=10
         ))
 
@@ -35,13 +36,13 @@ class PopularityAlgorithmBias(AlgorithmBiasStrategy):
         data_set: DataFrame = data_frame_reader.parse(DataFrameReaderStrategyContext(data_set_source))
 
         # TODO See how to obtain this programatically, without hardcoding column
-        all_items: np.ndarray = data_set['item_id'].unique()
+        all_items: np.ndarray = data_set['item'].unique()
 
         recommendation_frequencies: pandas.Series = pandas.Series(data=recommendations.flatten()).value_counts()
         series_with_zero_frequencies_for_all_items: pandas.Series = pandas.Series(
             data=np.zeros(shape=(all_items.size,)), index=all_items, dtype=np.int
         )
-        frequencies_of_all_items: pandas.Series = recommendation_frequencies \
+        frequencies_of_all_items: pandas.Series = recommendation_frequencies\
             .combine_first(series_with_zero_frequencies_for_all_items)
 
         frequencies_of_frequencies_of_all_items = frequencies_of_all_items.value_counts().sort_index()
@@ -51,6 +52,6 @@ class PopularityAlgorithmBias(AlgorithmBiasStrategy):
         ]  # TODO optimize if necessary
 
         graph: Graph = Graph(points=graph_points)
-        logarithmic_graph: Graph = LogarithmicGraph().process_graph(graph)
-        graph_limited_to_1000: Graph = LimitToN(n=1000).process_graph(logarithmic_graph)
-        return graph_limited_to_1000
+        graph = LogarithmicGraph().process_graph(graph)
+        graph = LimitToN(n=10000).process_graph(graph)
+        return graph
