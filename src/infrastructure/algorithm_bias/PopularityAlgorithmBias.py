@@ -2,23 +2,35 @@ from typing import List
 
 import numpy as np
 import pandas
+from pandas import DataFrame
 
 from src.domain.value_objects.Graph import Graph
 from src.domain.value_objects.GraphPoint import GraphPoint
 from src.infrastructure.algorithm_bias.AlgorithmBiasStrategy import AlgorithmBiasStrategy
 from src.infrastructure.algorithm_bias.AlgorithmBiasStrategyContext import AlgorithmBiasStrategyContext
+from src.infrastructure.parse.DataFrameReaderStrategy import DataFrameReaderStrategy
+from src.infrastructure.parse.DataFrameReaderStrategyContext import DataFrameReaderStrategyContext
+from src.infrastructure.parse.DataFrameReaderStrategyFactory import DataFrameReaderStrategyFactory
 from src.infrastructure.recommender_algorithms.RecommenderAlgorithmStrategyContext import \
     RecommenderAlgorithmStrategyContext
 
 
 class PopularityAlgorithmBias(AlgorithmBiasStrategy):
+    def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory = DataFrameReaderStrategyFactory()):
+        self.data_frame_reader_factory = data_frame_reader_factory
+
     def run(self, strategy_context: AlgorithmBiasStrategyContext) -> Graph:
+        data_set_source = strategy_context.data_set_source
         recommendations: np.ndarray = strategy_context.recommender_strategy.run(RecommenderAlgorithmStrategyContext(
-            data_set=strategy_context.data_set,
+            data_set_source=data_set_source,
             number_of_recommendations=10
         ))
 
-        all_items: np.ndarray = strategy_context.data_set['item_id'].unique()
+        data_frame_reader: DataFrameReaderStrategy = self.data_frame_reader_factory.create(data_set_source)
+        data_set: DataFrame = data_frame_reader.parse(DataFrameReaderStrategyContext(data_set_source))
+
+        # TODO See how to obtain this programatically, without hardcoding column
+        all_items: np.ndarray = data_set['item_id'].unique()
 
         recommendation_frequencies: pandas.Series = pandas.Series(data=recommendations.flatten()).value_counts()
         series_with_zero_frequencies_for_all_items: pandas.Series = pandas.Series(

@@ -12,8 +12,8 @@ class RandomAlgorithmPopularityBiasTest(unittest.TestCase):
         fixture = {
             "analysis_id": "1",
             "data_set_source": "fixtures/ratings.csv",
-            "algorithm_code": "random",
-            "bias_code": "popularity"
+            "algorithm_code": "Random Recommender",
+            "bias_code": "Popularity"
         }
 
         connection: pika.BlockingConnection = get_connection()
