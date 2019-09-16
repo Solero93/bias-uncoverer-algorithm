@@ -7,6 +7,8 @@ from src.domain.value_objects.Graph import Graph
 from src.domain.value_objects.GraphPoint import GraphPoint
 from src.infrastructure.data_bias.DataBiasStrategy import DataBiasStrategy
 from src.infrastructure.data_bias.DataBiasStrategyContext import DataBiasStrategyContext
+from src.infrastructure.graph_postprocessors.LimitToN import LimitToN
+from src.infrastructure.graph_postprocessors.LogarithmicGraph import LogarithmicGraph
 from src.infrastructure.parse.DataFrameReaderStrategy import DataFrameReaderStrategy
 from src.infrastructure.parse.DataFrameReaderStrategyContext import DataFrameReaderStrategyContext
 from src.infrastructure.parse.DataFrameReaderStrategyFactory import DataFrameReaderStrategyFactory
@@ -29,4 +31,8 @@ class PopularityDataBias(DataBiasStrategy):
         graph_points: List[GraphPoint] = [
             GraphPoint(x=k, y=v) for k, v in number_of_ratings_per_rating.to_dict().items()
         ]  # TODO optimize if necessary
-        return Graph(points=graph_points)
+
+        graph: Graph = Graph(points=graph_points)
+        logarithmic_graph: Graph = LogarithmicGraph().process_graph(graph)
+        graph_limited_to_1000: Graph = LimitToN(n=1000).process_graph(logarithmic_graph)
+        return graph_limited_to_1000

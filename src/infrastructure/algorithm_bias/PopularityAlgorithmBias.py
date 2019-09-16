@@ -8,6 +8,9 @@ from src.domain.value_objects.Graph import Graph
 from src.domain.value_objects.GraphPoint import GraphPoint
 from src.infrastructure.algorithm_bias.AlgorithmBiasStrategy import AlgorithmBiasStrategy
 from src.infrastructure.algorithm_bias.AlgorithmBiasStrategyContext import AlgorithmBiasStrategyContext
+from src.infrastructure.graph_postprocessors.GraphPostProcessor import GraphPostProcessor
+from src.infrastructure.graph_postprocessors.LimitToN import LimitToN
+from src.infrastructure.graph_postprocessors.LogarithmicGraph import LogarithmicGraph
 from src.infrastructure.parse.DataFrameReaderStrategy import DataFrameReaderStrategy
 from src.infrastructure.parse.DataFrameReaderStrategyContext import DataFrameReaderStrategyContext
 from src.infrastructure.parse.DataFrameReaderStrategyFactory import DataFrameReaderStrategyFactory
@@ -16,7 +19,9 @@ from src.infrastructure.recommender_algorithms.RecommenderAlgorithmStrategyConte
 
 
 class PopularityAlgorithmBias(AlgorithmBiasStrategy):
-    def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory = DataFrameReaderStrategyFactory()):
+    def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory = DataFrameReaderStrategyFactory(),
+                 graph_post_processor: GraphPostProcessor = LogarithmicGraph()):
+        self.graph_post_processor = graph_post_processor
         self.data_frame_reader_factory = data_frame_reader_factory
 
     def run(self, strategy_context: AlgorithmBiasStrategyContext) -> Graph:
@@ -45,4 +50,7 @@ class PopularityAlgorithmBias(AlgorithmBiasStrategy):
             GraphPoint(x=k, y=v) for k, v in frequencies_of_frequencies_of_all_items.to_dict().items()
         ]  # TODO optimize if necessary
 
-        return Graph(points=graph_points)
+        graph: Graph = Graph(points=graph_points)
+        logarithmic_graph: Graph = LogarithmicGraph().process_graph(graph)
+        graph_limited_to_1000: Graph = LimitToN(n=1000).process_graph(logarithmic_graph)
+        return graph_limited_to_1000

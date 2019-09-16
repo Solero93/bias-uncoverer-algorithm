@@ -4,10 +4,10 @@ from typing import Dict
 
 @dataclass
 class GraphPoint:
-    x: int
-    y: int
+    x: float
+    y: float
 
-    def serialize(self) -> Dict[str, int]:
+    def serialize(self) -> Dict[str, float]:
         return {
             'x': self.x,
             'y': self.y
