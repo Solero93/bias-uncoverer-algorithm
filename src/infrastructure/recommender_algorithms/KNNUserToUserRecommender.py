@@ -13,7 +13,7 @@ from src.infrastructure.recommender_algorithms.RecommenderAlgorithmStrategyConte
     RecommenderAlgorithmStrategyContext
 
 
-class KNNRecommender(RecommenderAlgorithmStrategy):
+class KNNUserToUserRecommender(RecommenderAlgorithmStrategy):
     # TODO Use a Dependency injection container
     def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory = DataFrameReaderStrategyFactory()):
         self.data_frame_reader_factory = data_frame_reader_factory
@@ -25,9 +25,9 @@ class KNNRecommender(RecommenderAlgorithmStrategy):
 
         partition = list(partition_users(data=data_set, partitions=1, method=crossfold.SampleFrac(0.2)))[0]
         test, train = partition.test, partition.train
-        algorithm = Recommender.adapt(item_knn.ItemItem(20))
-        trained_algorithm = algorithm.fit(train)
         number_of_recommendations = strategy_context.number_of_recommendations
+        algorithm = Recommender.adapt(item_knn.ItemItem(number_of_recommendations))
+        trained_algorithm = algorithm.fit(train)
         recommendations = lenskit.batch.recommend(trained_algorithm, test['user'].unique(), number_of_recommendations)
         return recommendations.groupby('user')['item'].apply(lambda x: x).to_numpy().reshape(
             (-1, number_of_recommendations))

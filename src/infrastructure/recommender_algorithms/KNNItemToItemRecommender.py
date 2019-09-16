@@ -1,8 +1,7 @@
 import lenskit
 import numpy as np
 from lenskit import crossfold
-from lenskit.algorithms import Recommender
-from lenskit.algorithms.basic import Popular
+from lenskit.algorithms import item_knn, Recommender, user_knn
 from lenskit.crossfold import partition_users
 from pandas import DataFrame
 
@@ -14,7 +13,7 @@ from src.infrastructure.recommender_algorithms.RecommenderAlgorithmStrategyConte
     RecommenderAlgorithmStrategyContext
 
 
-class MostPopularRecommender(RecommenderAlgorithmStrategy):
+class KNNItemToItemRecommender(RecommenderAlgorithmStrategy):
     # TODO Use a Dependency injection container
     def __init__(self, data_frame_reader_factory: DataFrameReaderStrategyFactory = DataFrameReaderStrategyFactory()):
         self.data_frame_reader_factory = data_frame_reader_factory
@@ -27,7 +26,7 @@ class MostPopularRecommender(RecommenderAlgorithmStrategy):
         partition = list(partition_users(data=data_set, partitions=1, method=crossfold.SampleFrac(0.2)))[0]
         test, train = partition.test, partition.train
         number_of_recommendations = strategy_context.number_of_recommendations
-        algorithm = Popular()
+        algorithm = Recommender.adapt(user_knn.UserUser(number_of_recommendations))
         trained_algorithm = algorithm.fit(train)
         recommendations = lenskit.batch.recommend(trained_algorithm, test['user'].unique(), number_of_recommendations)
         return recommendations.groupby('user')['item'].apply(lambda x: x).to_numpy().reshape(
