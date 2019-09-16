@@ -7,12 +7,12 @@ from src.infrastructure.rabbitmq.connection import get_connection
 from test.acceptance.MainRunOnlyOnce import MainRunOnlyOnce
 
 
-class RandomAlgorithmPopularityBiasTest(unittest.TestCase):
+class MostPopularAlgorithmPopularityBiasTest(unittest.TestCase):
     def test_stuff(self):
         fixture = {
             "analysis_id": "1",
             "data_set_source": "test/fixtures/ratings.csv",
-            "algorithm_code": "random",
+            "algorithm_code": "most-popular",
             "bias_code": "popularity"
         }
 
@@ -26,7 +26,7 @@ class RandomAlgorithmPopularityBiasTest(unittest.TestCase):
             body=json.dumps(fixture),
             properties=pika.BasicProperties(
                 content_type='application/json',
-                delivery_mode=1
+                delivery_mode=2
             ),
             mandatory=True
         )
