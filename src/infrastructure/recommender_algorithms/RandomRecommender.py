@@ -1,5 +1,5 @@
 import numpy as np
-from pandas import DataFrame
+from pandas import DataFrame, Series
 
 from src.infrastructure.parse.DataFrameReaderStrategy import DataFrameReaderStrategy
 from src.infrastructure.parse.DataFrameReaderStrategyContext import DataFrameReaderStrategyContext
@@ -20,9 +20,11 @@ class RandomRecommender(RecommenderAlgorithmStrategy):
         data_set: DataFrame = data_frame_reader.parse(DataFrameReaderStrategyContext(data_set_source))
 
         # TODO See how to obtain this programatically, without hardcoding column
-        all_items_with_repetitions: np.ndarray = data_set['item'].values
+        all_items: np.ndarray = data_set['item'].unique()
+        relative_frequency_of_each_item: Series = data_set['item'].value_counts(sort=False, normalize=True)
         all_users: np.ndarray = data_set['user'].unique()
         all_recommendations: np.ndarray = np.random.choice(
-            all_items_with_repetitions, size=(all_users.size, strategy_context.number_of_recommendations)
+            all_items, size=(all_users.size, strategy_context.number_of_recommendations), replace=True,
+            p=relative_frequency_of_each_item.values
         )
         return all_recommendations

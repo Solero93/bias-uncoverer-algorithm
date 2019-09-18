@@ -7,8 +7,9 @@ from src.domain.value_objects.Graph import Graph
 from src.domain.value_objects.GraphPoint import GraphPoint
 from src.infrastructure.data_bias.DataBiasStrategy import DataBiasStrategy
 from src.infrastructure.data_bias.DataBiasStrategyContext import DataBiasStrategyContext
-from src.infrastructure.graph_postprocessors.LimitToN import LimitToN
+from src.infrastructure.graph_postprocessors.LimitGraphToN import LimitGraphToN
 from src.infrastructure.graph_postprocessors.LogarithmicGraph import LogarithmicGraph
+from src.infrastructure.graph_postprocessors.NormalizeGraph import NormalizeGraph
 from src.infrastructure.parse.DataFrameReaderStrategy import DataFrameReaderStrategy
 from src.infrastructure.parse.DataFrameReaderStrategyContext import DataFrameReaderStrategyContext
 from src.infrastructure.parse.DataFrameReaderStrategyFactory import DataFrameReaderStrategyFactory
@@ -33,6 +34,7 @@ class PopularityDataBias(DataBiasStrategy):
         ]  # TODO optimize if necessary
 
         graph: Graph = Graph(points=graph_points)
+        graph: Graph = NormalizeGraph(float(data_set.size)).process_graph(graph)
         graph: Graph = LogarithmicGraph().process_graph(graph)
-        graph: Graph = LimitToN(n=10000).process_graph(graph)
+        graph: Graph = LimitGraphToN(n=15).process_graph(graph)
         return graph
